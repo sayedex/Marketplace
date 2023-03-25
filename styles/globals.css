@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@layer components{
+    .AllPading {
+     @apply   max-w-7xl m-auto    
+    }
+    .layout {
+        @apply px-2 py-5 md:px-10 md:py-10  
+       }
+     .Htext{
+        @apply text-xl font-semibold leading-none tracking-tight text-gray-900  dark:text-white
+     } 
+     .box_padding{
+        @apply px-5
+     }   
+   
+}
+
+html{
+    scroll-behavior:smooth !important;
+	position: relative;
+}
+
+#sidebar {
+    position: absolute;
+    z-index: 1200;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 236px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(51, 54, 63);
+    overflow-y: auto;
+}
+#MainParent {
+    display: flex;
+    position: relative;
+    background-color: rgb(51, 54, 63);
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+#sidebar_manu {
+    flex-shrink: 0;
+    width: 236px;
+    height: 100%;
+}
+
+#mainContainer {
+    flex: 1 1 0%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+	position: relative;
+}
+
+#Header_child {
+    position: relative;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    min-height: 68px;
+    padding: 16px 40px 16px 24px;
+    box-shadow: none;
+}
+
+#Header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    position: absolute;
+    z-index: 1100;
+    top: 0px;
+    left: auto;
+    right: 0px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(37, 40, 49);
+    border-style: solid;
+    border-width: 0px 0px 1px;
+    border-color: rgb(69, 72, 81);
+    box-shadow: none;
+    background-image: unset;
+    border-top-left-radius: 24px;
+}
+
+
+
+/* popup */
+.popup-content {
+    margin: auto;
+    background: rgb(255 255 255);
+    width: 50%;
+    padding: 5px;
+  }
+  .popup-arrow {
+    color: rgb(255, 255, 255);
+  }
+  [role='tooltip'].popup-content {
+    width: 200px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
+  }
+  
+  .popup-overlay {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  [data-popup='tooltip'].popup-overlay {
+    background: transparent;
+  }
+
+  .my-popup-content {
+    margin: auto;
+    background: rgb(255, 255, 255);
+    width: 50%;
+    padding: 5px;
+  }
+  .my-popup-arrow {
+    color: rgb(255, 255, 255);
+  }
+  [role='tooltip'].my-popup-content {
+    width: 200px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
+  }
+  
+  .my-popup-overlay {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  [data-popup='tooltip'].my-popup-overlay {
+    background: transparent;
+  }
+
+  .popup-content {
+    border-radius: 5px;
+    padding: 0.5rem;
+  }
+  
+  html[data-theme='dark'] .popup-content {
+    background-color: rgb(41, 45, 62);
+    color: #fff;
+    border: 1px solid #9a9595;
+  }
+  
+  html[data-theme='light'] .popup-content {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #d7d7d7;
+  }
+  
+  html[data-theme='dark'] .popup-arrow > svg {
+    color: rgb(41, 45, 62);
+    stroke-width: 2px;
+    stroke: #9a9595;
+    stroke-dasharray: 30px;
+    stroke-dashoffset: -54px;
+  }
+  
+  html[data-theme='light'] .popup-arrow > svg {
+    color: #fff;
+    stroke-width: 2px;
+    stroke: #d7d7d7;
+    stroke-dasharray: 30px;
+    stroke-dashoffset: -54px;
+  }
