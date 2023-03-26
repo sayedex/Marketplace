@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import { Box } from '../Box/Box';
 import { SwapRoute } from './SwapRoute';
-import { Tokeninfo } from '../API/Gettokeninfo';
+import { Tokeninfo ,GetTokenlistPrice} from '../API/Gettokeninfo';
 import { useAppSelector, useAppdispatch } from "../../hooks/redux";
+import { Tokenlist,Allpool } from '../TokenList/Tokenlist';
 import { useRouter } from 'next/router';
 type Props = {
   id: string
@@ -11,16 +12,19 @@ type Props = {
 export const Swap = ({ id }: Props) => {
   const dispatch = useAppdispatch();
   const router = useRouter();
-  const contract = router.query.id;
-
-
-
+  const contract = router.query.id as string;
 
   useEffect(() => {
-    dispatch(Tokeninfo({ address: "0x09eff1aeb50dc3562367d3cdc301a49459e16da9" }))
+    if(contract){
+      const token = Allpool[contract];    
+      dispatch(Tokeninfo({ address: token.contractaddress }))
+    }else{
+      const token = Allpool["0x09eff1aeb50dc3562367d3cdc301a49459e16da9"];
+      dispatch(Tokeninfo({ address: token.contractaddress }))
+    }
+    dispatch(GetTokenlistPrice({data:Tokenlist}))
 
-
-  }, [])
+  }, [contract])
 
 
 

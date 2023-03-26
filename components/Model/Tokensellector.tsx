@@ -8,10 +8,11 @@ interface ModalProps {
     open: boolean;
     onClose: () => void;
     onSelectedChange: (newSelected: any) => void;
+    tokenlist:any
   }
 
 
-export const Modal: FC<ModalProps> = ({ open, onClose,onSelectedChange }) => (
+export const Modal: FC<ModalProps> = ({ open, onClose,onSelectedChange ,tokenlist}) => (
     
     <Popup open={open}  modal onClose={onClose}>
       {/* header */}
@@ -31,7 +32,7 @@ Select a token
 {/* header */}
 
       <div className=' flex flex-col gap-2 pt-3'>
-{Tokenlist.map((data:any)=>{
+{tokenlist?.map((data:any)=>{
     return <div className='cursor-pointer'>
 
 <div onClick={()=>onSelectedChange(data)} className='flex flex-row gap-5 p-3  rounded-3xl hover:bg-slate-100 mb-4'>
