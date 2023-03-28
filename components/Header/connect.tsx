@@ -7,7 +7,7 @@ export const ExampleButton = () => {
         return (
           <button className="h-9 px-6 py-2  rounded-2xl text-sm
           font-semibold bg-[#3b3c46]   text-white whitespace-nowrap" onClick={show} >
-            {isConnected ? address?.slice(1,5)+"..."+ address?.slice(-3) : "Connect to a wallet"}
+            {isConnected ? address?.slice(1,5)+"..."+ address?.slice(-3) : "Connect"}
           </button>
           
         );

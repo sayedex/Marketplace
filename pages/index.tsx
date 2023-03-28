@@ -14,9 +14,10 @@ export default function  Home (){
 
   return (
     //flex relative bg-gray-800 h-screen overflow-hidden
-<div className='lex flex-1 flex-col relative overflow-hidden bg-slate-900'>
-<Header/>
+<div className='flex flex-col flex-1 overflow-hidden relative bg-[#f8fafc] dark:bg-slate-900'>
+ <Header/> 
 <SwapLeft id="sasas"/>
+
 </div>
   )
 }

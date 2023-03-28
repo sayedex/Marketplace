@@ -3,26 +3,44 @@ import { createSlice, createAsyncThunk, PayloadAction, current } from "@reduxjs/
 import { Token, Tokenlist as tokenType } from "../typeing";
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
-import { Tokeninfo ,GetTokenlistPrice} from "../components/API/Gettokeninfo"
+import { Tokeninfo, GetTokenlistPrice, getTokenInfoforuser } from "../API/Gettokeninfo"
+import { fetchSubgraphData } from "../API/Getprice"
 import { Tokenlist, } from "../components/TokenList/Tokenlist";
+import { Price } from "../typeing";
+import { Gettokeninfoa } from "../API/Gettokeninfo"
 interface PoolsState {
   active: boolean,
   rcvToken: Token,
-  TokenList: tokenType[]
+  TokenList: tokenType[],
+  price: Price,
+  mintTokenBalance:string,
+  SoldTokenBalance:string
 
 }
 
 
 const initialState: PoolsState = {
   active: true,
-  TokenList: Tokenlist,
   rcvToken: {
     name: "",
     decimals: "",
     symbol: "",
     contractaddress: ""
   },
-
+  TokenList: Tokenlist,
+  price: {
+    id: "",
+    price: 0,
+    totalSupply: 0,
+    backing: 0,
+    mintfee: 0,
+    transferfee: 0,
+    sellfee: 0,
+    soldtokenid: "",
+    tokensymbol: ""
+  },
+  mintTokenBalance:"0",
+  SoldTokenBalance:"0"
 
 
 };
@@ -39,19 +57,27 @@ const poolsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(Tokeninfo.fulfilled, (state, action) => {
       state.rcvToken.symbol = action.payload.tokensymbol;
-
     }),
-    builder.addCase(GetTokenlistPrice.fulfilled, (state, action) => {
-      const  responses:any  = action.payload;
+      builder.addCase(GetTokenlistPrice.fulfilled, (state, action) => {
+        const responses: any = action.payload;
+        responses.forEach((response: any, index: any) => {
+          const price = response.usdPrice;
+          state.TokenList[index].price = price;
 
-      responses.forEach((response:any, index:any) => {
-        const price = response.usdPrice;
-        state.TokenList[index].price= price;
+        })
 
-      })
+
+      }),
+      builder.addCase(fetchSubgraphData.fulfilled, (state, action) => {
+        state.price = action.payload;
       
-
-    })
+      }),
+      builder.addCase(getTokenInfoforuser.fulfilled, (state, action) => {
+        const data = action.payload;
+        state.mintTokenBalance = data[0].balanceOf;
+        state.SoldTokenBalance = data[1].balanceOf
+    
+      })
 
   }
 });

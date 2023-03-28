@@ -11,7 +11,7 @@ import Sitelogo  from "../../public/Lucaxfinance.png";
 import Image from 'next/image';
 import { useNetwork, useSwitchNetwork } from 'wagmi'
 //ALL Chian LOGO....
-
+import { Mobile} from '../Sidebar/mobile/Mobile';
 
 import Bsc from "../../public/ChianId/bsc.svg"
 
@@ -36,7 +36,7 @@ useEffect(() => {
       }
   }
 
-
+//now we will need to add popup component for showing manu...
 
 
 
@@ -44,15 +44,18 @@ useEffect(() => {
 
  return (
 
-    <div className=' flex flex-col min-h-68px w-full box-border flex-shrink-0 absolute z-50 top-0 right-0 text-white bg-slate-400 border-b-1 border-gray-700 rounded-tl-xl' >
+    <div id="" className='flex flex-col w-full box-border  absolute left-auto z-50 top-0 right-0 bg-[#f8fafc] text-gray-500 dark:text-white dark:bg-slate-900 border-b border-gray-700 rounded-tl-xl' >
 
-<div className='relative flex justify-between items-center min-h-68px px-4 py-4 shadow-none'>
+<div className='relative flex justify-between items-center min-h-75px px-4 py-6 shadow-none'>
 
 
 {/* child logo div */}
 <div>
 
-<h1>Scan</h1>
+<Image className='md:hidden' src={Sitelogo.src} alt="logo"  width={150} height={50}/>
+
+{/* <Mobile/> */}
+{/* we will show our logo here */}
 
 </div>
 {/* child logo div */}
@@ -63,13 +66,18 @@ useEffect(() => {
 <div className='flex flex-row items-center gap-x-3'>
 
 
-<div className='flex flex-row items-center gap-2 bg-[#3b3c46] rounded-2xl px-3 py-1 h-9'>
+<div className='hidden md:flex flex-row items-center gap-2 bg-[#fff] border border-gray-200 dark:border-none dark:bg-[#3b3c46] rounded-2xl px-3 py-1 h-9'>
 
 <Image src={Bsc.src} width={20} height={20} alt="chindId" />
 <span>BNBChain</span>
 </div>
 
+
 <ExampleButton/>
+
+<div className='md:hidden' ><Mobile/></div>
+
+
 
 </div>
 

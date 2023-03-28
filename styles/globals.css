@@ -168,3 +168,25 @@ html{
     stroke-dasharray: 30px;
     stroke-dashoffset: -54px;
   }
+
+
+  #dlyKXP {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    position: absolute;
+    z-index: 1100;
+    top: 0px;
+    left: auto;
+    right: 0px;
+    color: rgb(26, 26, 27);
+    background-color: rgb(249, 246, 232);
+    border-style: solid;
+    border-width: 0px 0px 1px;
+    border-color: rgba(69, 72, 81, 0.1);
+    box-shadow: none;
+    background-image: unset;
+    border-top-left-radius: 24px;
+}

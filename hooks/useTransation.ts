@@ -11,7 +11,8 @@ export function useTransation(
   fname: string,
   dispatch: any,
   value: any,
-  isnative:boolean
+  isnative:boolean,
+  arg:any
 ) {
 
   //without Ox...
@@ -19,17 +20,23 @@ export function useTransation(
   const pooladress = contractAddress.slice(2);
   const maxValue = ethers.constants.MaxUint256;
 
-  const { config, error, isError, isLoading: loadInstance } = usePrepareContractWrite({
+  
+
+  const { config, isError, isLoading: loadInstance } = usePrepareContractWrite({
     address: `0x${pooladress}`,
     abi: TokenABI.abi,
     functionName: fname,
-    args: [user, 0],
+    args: [...arg],
     overrides: {
       value:isnative && value
+    },
+    onError(data){
+console.log("data",data);
+
     }
   })
 
-  const { writeAsync, data, isSuccess } = useContractWrite(config)
+  const { writeAsync, data, isSuccess ,error} = useContractWrite(config)
   const { status, isLoading, isFetching } = useWaitForTransaction({
     hash: data?.hash,
     onSettled(data, error) {
@@ -40,6 +47,8 @@ export function useTransation(
     },
   })
 
+  console.log(error);
+  
   return {
     config,
     error,

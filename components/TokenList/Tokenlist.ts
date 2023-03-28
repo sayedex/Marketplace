@@ -3,15 +3,20 @@ export const Tokenlist = [
     name:"bnb",
     decimals:18,
     icon:"/Token/bnb.svg",
-    contractaddress:"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
-    symbol:"BNB"
+    contractaddress:"0x09EFF1AEB50dc3562367D3cDc301A49459e16dA9",
+    symbol:"BNB",
+    stable:false,
+    native:true
+
 },
 {
     name:"dai",
     decimals:18,
     icon:"/Token/dai.svg",
-    contractaddress:"0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
-    symbol:"DAI"
+    contractaddress:"0x09EFF1AEB50dc3562367D3cDc301A49459e16dA9",
+    symbol:"DAI",
+    stable:true,
+    native:false
 },
 
 ]
@@ -47,8 +52,17 @@ export const Allpool: {[key: string]: any}  = {
         name:"busd",
         decimals:18,
         icon:"/Token/busd.svg",
-        contractaddress:"0x09eff1aeb50dc3562367d3cdc301a49459e16da9"
+        contractaddress:"0x09eff1aeb50dc3562367d3cdc301a49459e16da9",
+        url:"https://api.thegraph.com/subgraphs/name/sayedex/usdp"
     },
 
 
 }
+
+
+export const UserBalance = [
+    {
+        name:"busd",
+        contractaddress:"0x09eff1aeb50dc3562367d3cdc301a49459e16da9",
+    },
+]
