@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createSlice, createAsyncThunk, PayloadAction, current } from "@reduxjs/toolkit";
-import { Token, Tokenlist as tokenType } from "../typeing";
+import { Token, Tokenlist as tokenType,Pool } from "../typeing";
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import { Tokeninfo, GetTokenlistPrice, getTokenInfoforuser } from "../API/Gettokeninfo"
@@ -14,7 +14,9 @@ interface PoolsState {
   TokenList: tokenType[],
   price: Price,
   mintTokenBalance:string,
-  SoldTokenBalance:string
+  SoldTokenBalance:string,
+  poolInfo:Pool,
+  BNBbalance?:string
 
 }
 
@@ -39,8 +41,16 @@ const initialState: PoolsState = {
     soldtokenid: "",
     tokensymbol: ""
   },
+  poolInfo:{
+    name: "",
+    decimals: 0,
+    contractaddress: "",
+    url: "",
+    mintToken: []
+  },
   mintTokenBalance:"0",
-  SoldTokenBalance:"0"
+  SoldTokenBalance:"0",
+  BNBbalance:"0"
 
 
 };
@@ -52,20 +62,23 @@ const poolsSlice = createSlice({
   reducers: {
     setFilterStatus: (state, action: PayloadAction<boolean>) => {
 
+    },
+    setPoolinfo: (state, action: PayloadAction<Pool>) => {
+   state.poolInfo = action.payload;
+  
     }
   },
   extraReducers: (builder) => {
     builder.addCase(Tokeninfo.fulfilled, (state, action) => {
-      state.rcvToken.symbol = action.payload.tokensymbol;
+      state.rcvToken.symbol = action.payload?.tokensymbol;
     }),
       builder.addCase(GetTokenlistPrice.fulfilled, (state, action) => {
         const responses: any = action.payload;
         responses.forEach((response: any, index: any) => {
           const price = response.usdPrice;
-          state.TokenList[index].price = price;
+          state.poolInfo.mintToken[index].price = price;
 
         })
-
 
       }),
       builder.addCase(fetchSubgraphData.fulfilled, (state, action) => {
@@ -73,9 +86,12 @@ const poolsSlice = createSlice({
       
       }),
       builder.addCase(getTokenInfoforuser.fulfilled, (state, action) => {
-        const data = action.payload;
+        const data = action.payload.results;
         state.mintTokenBalance = data[0].balanceOf;
-        state.SoldTokenBalance = data[1].balanceOf
+        state.SoldTokenBalance = data[1].balanceOf;
+       state.BNBbalance = action.payload.formatEther;
+
+ 
     
       })
 
@@ -83,7 +99,7 @@ const poolsSlice = createSlice({
 });
 
 
-export const { } = poolsSlice.actions;
+export const {setPoolinfo } = poolsSlice.actions;
 export default poolsSlice.reducer;
 
 

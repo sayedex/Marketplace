@@ -3,7 +3,7 @@ export const Tokenlist = [
     name:"bnb",
     decimals:18,
     icon:"/Token/bnb.svg",
-    contractaddress:"0x09EFF1AEB50dc3562367D3cDc301A49459e16dA9",
+    contractaddress:"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
     symbol:"BNB",
     stable:false,
     native:true
@@ -13,7 +13,7 @@ export const Tokenlist = [
     name:"dai",
     decimals:18,
     icon:"/Token/dai.svg",
-    contractaddress:"0x09EFF1AEB50dc3562367D3cDc301A49459e16dA9",
+    contractaddress:"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
     symbol:"DAI",
     stable:true,
     native:false
@@ -46,17 +46,22 @@ export const MintToken = "0x09eff1aeb50dc3562367d3cdc301a49459e16da9";
 
 
 
-
+//pool info
 export const Allpool: {[key: string]: any}  = {
     "0x09eff1aeb50dc3562367d3cdc301a49459e16da9":{
-        name:"busd",
+        name:"USDP",
         decimals:18,
-        icon:"/Token/busd.svg",
         contractaddress:"0x09eff1aeb50dc3562367d3cdc301a49459e16da9",
-        url:"https://api.thegraph.com/subgraphs/name/sayedex/usdp"
+        url:"https://api.thegraph.com/subgraphs/name/sayedex/usdp",
+        mintToken:[
+            {
+                contractaddress:"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+                name:"BNB",
+                isnative:true,
+                stable:false
+            }
+        ]
     },
-
-
 }
 
 

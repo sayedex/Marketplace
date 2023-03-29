@@ -12,32 +12,30 @@ import { useTotalPrice } from '../../hooks/useTotalPrice';
 import { useCalculatePrice } from '../../hooks/useCalculatePrice';
 import ShowingPrice from './ShowingPrice';
 import { useApprove } from "../../hooks/useApprove";
+import { Buymodel } from '../Model/Buymodel';
+import { Selltoken } from '../Model/Selltoken';
+import { Swich } from './Swich';
+
 type Props = {}
 
 export function SwapRoute() {
   const { address } = useAccount()
   const router = useRouter();
   const dispatch = useAppdispatch()
-  const { rcvToken, TokenList, price } = useAppSelector((state) => state.pools);
-  const [open, setOpen] = useState(false);
+  const { rcvToken, TokenList, price ,poolInfo} = useAppSelector((state) => state.pools);
+  const MintModel = useRef<{ openPopup: () => void ,closePopup:()=>void}>(null);
+  const sellModel = useRef<{ openPopup: () => void ,closePopup:()=>void}>(null);
   const [selectedSend, setSelectedSend] = useState(0);
   const [Tokenvalue, setTokenvalue] = useState("0.000001");
   //true means buy..
-  const [isbuyorsell, setisbuyorsell] = useState<"buy" | "sell">('buy');
+  const [isbuyorsell, setisbuyorsell] = useState<boolean>(true);
   //RcV token
-  const tokenName = router.query.id ? router.query.id : "busd";
-  const token = SellToken['busd'];
+  const path = router.query.id as string;
+
+  
+  // const token = SellToken[path];
   const contractaddress = "0x09eff1aeb50dc3562367d3cdc301a49459e16da9"
-  //mint token
-  const { writeAsync } = useTransation(
-    contractaddress,
-    address,
-    "mintWithNative(address,uint256)",
-    dispatch,
-    Tokenvalue ? ethers.utils.parseEther(Tokenvalue) : "0.00000000001",
-    true,
-    [address,0]
-  )
+
   //sell token,,
   const { writeAsync:sellToken } = useTransation(
     contractaddress,
@@ -66,18 +64,19 @@ export function SwapRoute() {
 
   // BNB/DAI => Mint token...
   const MintValue = useTotalPrice({
-    priceA: (TokenList[selectedSend].price),
+    priceA: poolInfo.mintToken[selectedSend]?.price,
     amountB: Tokenvalue,
     priceC: price.price,
-    stable: TokenList[selectedSend].stable
+    stable: poolInfo.mintToken[selectedSend]?.stable,
   });
 
 
 
 
   //it will check user spended token allowance ... it will take contract address with user address
-  const allowance = useApprove(TokenList[selectedSend].contractaddress, address, contractaddress);
+  const MintTokenallowance = useApprove(poolInfo.mintToken[selectedSend]?.contractaddress,address,contractaddress,poolInfo.mintToken[selectedSend]?.isnative);
 
+console.log("allowance",MintTokenallowance);
 
 
   // Token = > stable token convert -> 
@@ -92,16 +91,15 @@ export function SwapRoute() {
 
 
   const handleOpen = () => {
-    setOpen(true);
+  
   };
 
   const handleClose = () => {
-    setOpen(false);
+  
   };
 
   //handle token input changes..
   const handleSelectedChange = (newSelected: any) => {
-    setOpen(false);
     setSelectedSend(newSelected);
   };
   //handle token input changes..
@@ -114,41 +112,43 @@ export function SwapRoute() {
   //handle buy/sell manu...
   const HandleBuyorSell = (type: string) => {
     if (type == "buy") {
-      setisbuyorsell('buy')
+      setisbuyorsell(true)
     } else {
-      setisbuyorsell('sell');
+      setisbuyorsell(false)
     }
   }
 
 
   const handleSwap = async () => {
-    if (isbuyorsell == "buy") {
-      writeAsync?.();
+    if (isbuyorsell) {
+      MintModel.current?.openPopup()
     } else {
-      sellToken?.()
+      sellModel.current?.openPopup()
     }
 
+  }
+
+  const handleChanebuysell = ()=>{
+    setisbuyorsell(!isbuyorsell)
   }
 
 
 
   return (
     <div className='relative'>
-      <Modal open={open} onClose={handleClose} onSelectedChange={handleSelectedChange} tokenlist={TokenList} />
-
-
-
+      {/* <Modal open={open} onClose={handleClose} onSelectedChange={handleSelectedChange} tokenlist={TokenList} /> */}
+     
       <div className='w-full flex flex-row text-white  justify-between bg-transparent rounded-t-2xl border-none'>
-        <button onClick={() => HandleBuyorSell("buy")} className={`${isbuyorsell == 'buy' ? "bg-green-600" : "bg-slate-700"} p-5 w-2/4 rounded-tl-2xl`}>BUY</button>
-        <button onClick={() => HandleBuyorSell("sell")} className={`${isbuyorsell != 'buy' ? "bg-red-600" : "bg-slate-700"} p-5 w-2/4 rounded-tr-2xl`}>SELL</button>
+        <button onClick={() => HandleBuyorSell("buy")} className={`${isbuyorsell ? "bg-green-600" : "bg-slate-700"} p-5 w-2/4 rounded-tl-2xl`}>BUY</button>
+        <button onClick={() => HandleBuyorSell("sell")} className={`${!isbuyorsell  ? "bg-red-600" : "bg-slate-700"} p-5 w-2/4 rounded-tr-2xl`}>SELL</button>
       </div>
 
-      {isbuyorsell == "buy" && <div>
+      {isbuyorsell && <div>
         <div className='m-3 flex flex-col gap-y-3 cursor-pointer ' >
           <p>Send</p>
-          <TokenFiled name={TokenList[selectedSend].name} model={true} handleTokenvalueChange={handleTokenvalueChange} OpenModel={handleOpen} />
+          <TokenFiled name={poolInfo.mintToken[selectedSend]?.name} model={false} handleTokenvalueChange={handleTokenvalueChange} OpenModel={handleOpen} />
         </div>
-
+     <Swich isbuyorsell={isbuyorsell} handleChanebuysell={handleChanebuysell}/>
         <div className='m-3 flex flex-col gap-y-3 cursor-pointer'>
           <p>Received</p>
           <ShowingPrice name={price.tokensymbol} value={MintValue} />
@@ -161,12 +161,12 @@ export function SwapRoute() {
 
 
 
-      {isbuyorsell == "sell" && <div>
+      {!isbuyorsell && <div>
         <div className='m-3 flex flex-col gap-y-3 cursor-pointer ' >
           <p>Send</p>
           <TokenFiled name={price.tokensymbol} handleTokenvalueChange={handleTokenvalueChange} model={false} OpenModel={handleOpen} />
         </div>
-
+        <Swich isbuyorsell={isbuyorsell} handleChanebuysell={handleChanebuysell}/>
         <div className='m-3 flex flex-col gap-y-3 cursor-pointer'>
           <p>Received</p>
           <ShowingPrice name={rcvToken.symbol} value={amountOut(Number(Tokenvalue))} />
@@ -180,13 +180,14 @@ export function SwapRoute() {
 
 
         {
-        !TokenList[selectedSend].native &&  allowance == 0 || allowance==null  ? <button  >Approve </button> : <button onClick={() => handleSwap()} >SWAP </button>
+        !poolInfo.mintToken[selectedSend]?.isnative &&  MintTokenallowance == 0 || MintTokenallowance==null  ? <button  >Approve </button> : <button onClick={() => handleSwap()} >SWAP </button>
         }
 
 
       </div>
 
-
+  {  <Buymodel Input={Tokenvalue} output={MintValue}  ref={MintModel}   />}
+  <Selltoken Input={Tokenvalue} output={MintValue}  ref={sellModel}/>
     </div>
   )
 }

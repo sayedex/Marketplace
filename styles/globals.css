@@ -97,9 +97,23 @@ html{
 .popup-content {
     margin: auto;
     background: rgb(255 255 255);
-    width: 50%;
+
     padding: 5px;
   }
+
+ @media(max-width:600px){
+  .popup-content {
+    position: absolute!important;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    padding-bottom: 1rem;
+    border-radius: 19px 19px 0 0;
+   width: 100% !important;
+    transition: all 1s;
+  }
+ } 
   .popup-arrow {
     color: rgb(255, 255, 255);
   }
@@ -170,23 +184,3 @@ html{
   }
 
 
-  #dlyKXP {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    box-sizing: border-box;
-    flex-shrink: 0;
-    position: absolute;
-    z-index: 1100;
-    top: 0px;
-    left: auto;
-    right: 0px;
-    color: rgb(26, 26, 27);
-    background-color: rgb(249, 246, 232);
-    border-style: solid;
-    border-width: 0px 0px 1px;
-    border-color: rgba(69, 72, 81, 0.1);
-    box-shadow: none;
-    background-image: unset;
-    border-top-left-radius: 24px;
-}

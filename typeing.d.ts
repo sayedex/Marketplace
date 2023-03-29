@@ -34,3 +34,18 @@ export interface Userinfo{
     tokenName:string,
     balance:number
 }
+
+export interface  mintToken {
+    contractaddress: string;
+    name: string;
+    isnative:boolean,
+    price?: number,
+    stable:boolean
+}
+export type Pool = {
+    name: string;
+    decimals: number;
+    contractaddress: string;
+    url: string;
+    mintToken: mintToken[]
+}

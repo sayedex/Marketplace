@@ -2,11 +2,12 @@ import {provider} from '../utils/providerweb3';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ethers } from 'ethers';
 import TokenABI from "../config/ABI/Token.json"
-import { Token } from '../typeing';
+import { Token ,mintToken} from '../typeing';
 import axios from "axios";
 import type { RootState,AppDispatch } from "../store/store"
 
 export const Gettokeninfoa = async (contractAddress:string) => {
+  if(!contractAddress) return;
     const contract = new ethers.Contract(contractAddress, TokenABI.abi, provider);
     const tokensymbol = await contract.symbol();
     return {tokensymbol};
@@ -32,10 +33,10 @@ export const Gettokeninfoa = async (contractAddress:string) => {
 
   export const GetTokenlistPrice = createAsyncThunk(
     'getTokenPrice',
-    async (params: { data: Token[]}, { dispatch }) => {
+    async (params: { data: mintToken[]}, { dispatch }) => {
       if (!params.data) return;
       const output = await axios.all(
-        params.data.map((pool: Token) => {
+        params.data.map((pool: mintToken) => {
           return axios.get(
             `https://deep-index.moralis.io/api/v2/erc20/${pool.contractaddress}/price?chain=bsc`,
             options
@@ -54,6 +55,7 @@ export const Gettokeninfoa = async (contractAddress:string) => {
     const contract = new ethers.Contract(contractAddress, TokenABI.abi, provider);
     const tokenBalance = await contract.balanceOf(user);
     const balance =  ethers.utils.formatEther(tokenBalance);
+   
      const balanceOf =  Number(balance).toFixed(1)
     return {balanceOf};
   }
@@ -70,10 +72,18 @@ export const Gettokeninfoa = async (contractAddress:string) => {
       const promises = contractAddresses.map((address) => {
       return Getbalance(address,params.user);
      });
+     let formatEther;
       // Wait for all promises to resolve with Promise.all
      const results = await Promise.all(promises);
+     if(RootState.pools.poolInfo.mintToken[0].isnative){
+      const BNBbalance= await provider.getBalance(params.user);
+      formatEther = ethers.utils.formatEther(BNBbalance)
+     }else{
+      /// we need to call here......
+     }
+     
     // Return the results as the payload of the action
-     return results;
+     return {results,formatEther};
     
     }
   );

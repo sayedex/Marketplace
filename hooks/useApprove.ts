@@ -3,21 +3,37 @@ import { ethers } from 'ethers';
 // import erc20ABI from 'path/to/erc20ABI';
 import tokenabi from "../config/ABI/Token.json"
 import { provider } from '../utils/providerweb3';
+import erc20 from "../config/ABI/Erc20.json";
 import { erc721ABI } from 'wagmi';
-export const useApprove = (contractAddress:string,user:any,spender:string) => {
-  const [tokenAllowance, setTokenAllowance] = useState(null);
+export const useApprove = (contractAddress:string,user:any,spender:string,native:boolean) => {
+  const [tokenAllowance, setTokenAllowance] = useState(0);
+
+
+
+
 
   useEffect(() => {
     const getTokenInfo = async () => {
-      if(!user) return;
-      const contract = new ethers.Contract(contractAddress, tokenabi.abi, provider);
-      const fetchUserAllowance = await contract.allowance(user,spender);
-      console.log(fetchUserAllowance);
-      
-      setTokenAllowance(fetchUserAllowance);
+      if(!user && !contractAddress && !provider) return;
+      try{
+        const contract = new ethers.Contract(contractAddress,erc20.abi, provider);
+        const fetchUserAllowance = await contract.allowance(user,spender);
+        setTokenAllowance(fetchUserAllowance);   
+      }catch(error){
+
+
+      }
+   
+
     };
-    getTokenInfo();
+    if(!native){
+      getTokenInfo();
+    }else{
+      setTokenAllowance(0)
+    }
+
   }, [contractAddress,user]);
 
   return tokenAllowance;
 };
+/// -> ->       
