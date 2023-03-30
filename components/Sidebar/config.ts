@@ -3,22 +3,21 @@ export const ManuItem = [
         name:"USDP",
         icon:'/Token/USDP.png',
         contractaddress:"",
+        link:"/"
     },
 
     {
-        name:"coinname",
+        name:"CHURUPO",
         icon:'/Token/USDP.png',
         contractaddress:"",
+        link:"/sas"
     },
     {
-        name:"coinname",
+        name:"BIBYUYO",
         icon:'/Token/USDP.png',
         contractaddress:"",
+        link:"/sas"
     },
-    {
-        name:"coinname",
-        icon:'/Token/USDP.png',
-        contractaddress:"",
-    },
+   
 
 ]

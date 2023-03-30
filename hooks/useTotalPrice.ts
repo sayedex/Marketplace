@@ -6,6 +6,10 @@ interface Props {
   priceC: any;
   stable:boolean
 }
+///priceA :
+//amouintB:
+//PriceC:
+//stable:
 
 export const useTotalPrice = ({ priceA, amountB, priceC ,stable}: Props) => {
   const [totalPrice, setTotalPrice] = useState(0);

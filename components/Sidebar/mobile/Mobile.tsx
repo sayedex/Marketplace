@@ -5,6 +5,7 @@ import { Additional } from '../additional/Additional';
 import { Social } from '../social/Social';
 import { Manu } from '../Manu';
 import { Mood } from '../mood/Mood';
+import { Linkmanu } from '../Linkmanu/Linkmanu';
 export const Mobile = () => {
     return (
         <div>
@@ -12,7 +13,7 @@ export const Mobile = () => {
                 {({ open, close }) => (
                     /* Use the `open` state to conditionally change the direction of the chevron icon. */
                     <>
-                        <Popover.Button className='border-none'>
+                        <Popover.Button className='border-none p-0'>
                             {/* {open ? "close" : "open"} */}
 
                             <div className='cursor-pointer p-2 hover:bg-slate-100 rounded-lg dark:hover:bg-slate-800'>
@@ -34,16 +35,21 @@ export const Mobile = () => {
                         </Popover.Button>
 
 
-                        <Popover.Panel className="fixed overflow-y-auto left-1/2 z-10 flex flex-col mt-3 w-screen bg-white h-screen dark:bg-slate-900 -translate-x-1/2 transform px-4 ">
+                        <Popover.Panel className="fixed overflow-y-auto left-1/2 z-10 flex flex-col mt-3 w-screen bg-white h-screen dark:bg-slate-900 -translate-x-1/2 transform  ">
                             {/* all manu.. */}
                                 <Manu close={()=>close()} />
-                             <div className=''>
+                            <div className='px-5'>
+                            <Linkmanu close={()=>close()}/>
+                            </div>
+                               <div className='pt-5 px-5'>
                              <Additional close={()=>close()} />
                              </div>
                               
-                     <div className='flex-1 items-end pt-[10rem]'>  
+                     <div className='flex-1 items-end'>  
            
-                     <div className='py-4 '> <Social close={()=>close()}/></div>
+                     <div className='py-4 '>
+                        <Social close={()=>close()}/>
+                        </div>
                      <Mood/>
                      </div>
                  

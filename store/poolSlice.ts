@@ -89,7 +89,11 @@ const poolsSlice = createSlice({
         const data = action.payload.results;
         state.mintTokenBalance = data[0].balanceOf;
         state.SoldTokenBalance = data[1].balanceOf;
-       state.BNBbalance = action.payload.formatEther;
+  if(state.poolInfo.mintToken[0].isnative){
+    state.BNBbalance = action.payload.formatEther;
+  }else{
+    //update...token balance..
+  }
 
  
     

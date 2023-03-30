@@ -75,8 +75,8 @@ export function SwapRoute() {
 
   //it will check user spended token allowance ... it will take contract address with user address
   const MintTokenallowance = useApprove(poolInfo.mintToken[selectedSend]?.contractaddress,address,contractaddress,poolInfo.mintToken[selectedSend]?.isnative);
-
-console.log("allowance",MintTokenallowance);
+  const soldTokenAllowance = useApprove(poolInfo.contractaddress,address,poolInfo.contractaddress,false);
+console.log("soldTokenAllowance",soldTokenAllowance);
 
 
   // Token = > stable token convert -> 
