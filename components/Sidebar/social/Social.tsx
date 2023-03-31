@@ -14,7 +14,7 @@ export const Social = ({close}: Props) => {
 
 {SocialItem.map((data,indx)=>{
   return (
-    <a href="http://" onClick={()=>handleClose()}>
+    <a key={indx} href="http://" onClick={()=>handleClose()}>
     <data.icon key={data.name} /></a>
   )
 })}

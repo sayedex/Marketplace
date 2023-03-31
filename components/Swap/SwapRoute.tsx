@@ -16,6 +16,7 @@ import { Buymodel } from '../Model/Buymodel';
 import { Selltoken } from '../Model/Selltoken';
 import { Swich } from './Swich';
 
+
 type Props = {}
 
 export function SwapRoute() {
@@ -26,41 +27,12 @@ export function SwapRoute() {
   const MintModel = useRef<{ openPopup: () => void ,closePopup:()=>void}>(null);
   const sellModel = useRef<{ openPopup: () => void ,closePopup:()=>void}>(null);
   const [selectedSend, setSelectedSend] = useState(0);
-  const [Tokenvalue, setTokenvalue] = useState("0.000001");
+  const [Tokenvalue, setTokenvalue] = useState("0");
   //true means buy..
   const [isbuyorsell, setisbuyorsell] = useState<boolean>(true);
   //RcV token
-  const path = router.query.id as string;
 
   
-  // const token = SellToken[path];
-  const contractaddress = "0x09eff1aeb50dc3562367d3cdc301a49459e16da9"
-
-  //sell token,,
-  const { writeAsync:sellToken } = useTransation(
-    contractaddress,
-    address,
-    "sell(uint256)",
-    dispatch,
-    0,
-    false,
-    [Number(Tokenvalue)*10**18]
-  )
-
-  const { writeAsync:ApproveToken } = useTransation(
-    contractaddress, /// it will be the stal
-    address,
-    "approve(address,uint256)",
-    dispatch,
-    0,
-    false,
-    []
-  )
-
-
-
-
-
 
   // BNB/DAI => Mint token...
   const MintValue = useTotalPrice({
@@ -74,15 +46,16 @@ export function SwapRoute() {
 
 
   //it will check user spended token allowance ... it will take contract address with user address
-  const MintTokenallowance = useApprove(poolInfo.mintToken[selectedSend]?.contractaddress,address,contractaddress,poolInfo.mintToken[selectedSend]?.isnative);
-  const soldTokenAllowance = useApprove(poolInfo.contractaddress,address,poolInfo.contractaddress,false);
-console.log("soldTokenAllowance",soldTokenAllowance);
+  const {tokenAllowance:MintTokenallowance,} = useApprove(poolInfo.mintToken[selectedSend]?.contractaddress,address,poolInfo.contractaddress,poolInfo.mintToken[selectedSend]?.isnative,Tokenvalue,dispatch);
+  const {approveToken,tokenAllowance:soldTokenAllowance,isLoading:loadSoldtokenApprove} = useApprove(poolInfo.contractaddress,address,poolInfo.contractaddress,false,Tokenvalue,dispatch);
+
 
 
   // Token = > stable token convert -> 
   const { calculatePrice, amountOut } = useCalculatePrice({
     totalSupply: price.totalSupply,
-    backingValue: price.backing
+    backingValue: price.backing,
+    Soldfees:price.sellfee
   })
 
 
@@ -104,7 +77,8 @@ console.log("soldTokenAllowance",soldTokenAllowance);
   };
   //handle token input changes..
   const handleTokenvalueChange = (value: any) => {
-    setTokenvalue(value);
+      setTokenvalue(value);
+   
   };
 
 
@@ -121,9 +95,10 @@ console.log("soldTokenAllowance",soldTokenAllowance);
 
   const handleSwap = async () => {
     if (isbuyorsell) {
-      MintModel.current?.openPopup()
+      MintModel.current?.openPopup();
+ 
     } else {
-      sellModel.current?.openPopup()
+        sellModel.current?.openPopup();
     }
 
   }
@@ -132,6 +107,10 @@ console.log("soldTokenAllowance",soldTokenAllowance);
     setisbuyorsell(!isbuyorsell)
   }
 
+  const handleapprove = async()=>{
+    await approveToken?.();
+
+  }
 
 
   return (
@@ -180,10 +159,12 @@ console.log("soldTokenAllowance",soldTokenAllowance);
 
 
         {
-        !poolInfo.mintToken[selectedSend]?.isnative &&  MintTokenallowance == 0 || MintTokenallowance==null  ? <button  >Approve </button> : <button onClick={() => handleSwap()} >SWAP </button>
+   isbuyorsell? !poolInfo.mintToken[selectedSend]?.isnative &&  MintTokenallowance == 0 || MintTokenallowance==null  ? <button   >Approve </button> : <button onClick={() => handleSwap()} >SWAP </button>:null
         }
 
-
+{
+   !isbuyorsell?   (Number(Tokenvalue)*10**18) > soldTokenAllowance ? <button  onClick={()=>handleapprove()} >{`${loadSoldtokenApprove?"Approveing..":"Approve"}`} </button> : <button onClick={() => handleSwap()} >SWAP </button>:null
+        }
       </div>
 
   {  <Buymodel Input={Tokenvalue} output={MintValue}  ref={MintModel}   />}

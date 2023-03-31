@@ -31,13 +31,13 @@ export function useTransation(
       value:isnative && value
     },
     onError(data){
-console.log("data",data);
+
 
     }
   })
 
   const { writeAsync, data, isSuccess ,error} = useContractWrite(config)
-  const { status, isLoading, isFetching } = useWaitForTransaction({
+  const { status, isLoading, isFetching,isFetched, } = useWaitForTransaction({
     hash: data?.hash,
     onSettled(data, error) {
       // ShowToast("Approve done",data?.transactionHash);
@@ -47,7 +47,6 @@ console.log("data",data);
     },
   })
 
-  console.log(error);
   
   return {
     config,
@@ -59,6 +58,7 @@ console.log("data",data);
     isSuccess,
     status,
     isLoading,
-    isFetching
+    isFetching,
+    isFetched
   }
 }

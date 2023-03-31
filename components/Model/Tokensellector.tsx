@@ -33,7 +33,7 @@ export const Modal: FC<ModalProps> = ({ open, onClose, onSelectedChange, tokenli
 
     <div className=' flex flex-col gap-2 pt-3'>
       {tokenlist?.map((data: any, index: any) => {
-        return <div className='cursor-pointer'>
+        return <div className='cursor-pointer' key={index}>
 
           <div onClick={() => onSelectedChange(index)} className='flex flex-row gap-5 p-3  rounded-3xl hover:bg-slate-100 mb-4'>
             <Image src={`/Token/${data.name}.svg`} width={22} height={22} alt={data.name} />

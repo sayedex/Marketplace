@@ -11,7 +11,9 @@ type Props = {
 
 const TokenFiled = ({ name, OpenModel, handleTokenvalueChange,model}: Props) => {
   const HandleChange = (e: any) => {
+    if(e.target.value){
       handleTokenvalueChange(e.target.value)
+    }
 
   }
 

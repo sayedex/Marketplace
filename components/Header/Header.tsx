@@ -28,7 +28,6 @@ export function Header() {
 
 useEffect(() => {
     setIsMounted(true);
-    setTheme("dark")
   }, []);
   const ChangeToDarkMood = ()=>{
     if (isMounted) {
