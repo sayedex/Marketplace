@@ -12,7 +12,7 @@ import Image from 'next/image';
 import { useNetwork, useSwitchNetwork } from 'wagmi'
 //ALL Chian LOGO....
 import { Mobile} from '../Sidebar/mobile/Mobile';
-
+import DarkSitelogo  from "../../public/dark.png";
 import Bsc from "../../public/ChianId/bsc.svg"
 
 
@@ -51,7 +51,10 @@ useEffect(() => {
 {/* child logo div */}
 <div>
 
-<Image className='md:hidden' src={Sitelogo.src} alt="logo"  width={150} height={50}/>
+<div className='md:hidden'>
+<Image className='hidden dark:block' src={Sitelogo.src} alt="logo"  width={150} height={50}/>
+<Image className='block dark:hidden' src={DarkSitelogo.src} alt="logo"  width={150} height={50}/>
+</div>
 
 {/* <Mobile/> */}
 {/* we will show our logo here */}
