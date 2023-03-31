@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
-      <title>TRstake is  the best free decentralized staking  platform  on Binance Smart Chain  where you can stake your token and earn passive income </title>
+      <title>test </title>
 
       <body>
         <Main />
