@@ -58,7 +58,7 @@ export const Swap = ({ id }: Props) => {
   return (
     <div className='relative flex flex-col gap-5 w-full xl:w-3/6   '>
       {/* content */}
-      <div className='flex flex-row gap-x-5'>
+      <div className='flex flex-col gap-5 md:flex-row gap-x-5'>
         <Box icon={mintToken[0]?.name} name={mintToken[0]?.name} value={BNBbalance?formatprice(Number(BNBbalance)):""} type='Balance' />
         <Box icon={price.tokensymbol} name={price.tokensymbol} value={formatprice(Number(mintTokenBalance))} type='Balance' />
       </div>
