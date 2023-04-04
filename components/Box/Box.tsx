@@ -1,5 +1,7 @@
 import React from 'react'
-import Image from 'next/image'
+import Image from 'next/image';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+// import Layer from "../../public/"
 type Props = {
     name:string,
     value:string
@@ -14,7 +16,7 @@ export const Box = ({name,value,type,subtitle,bigbox,icon}: Props) => {
     <div className=' bg-white border border-[#d9d9d9] dark:border-none dark:bg-gray-800 px-6 py-8 w-full rounded-lg md:min-w-max'>
 {/* icon */}
 <div className='flex flex-row gap-x-2 p-3 items-center'>
-<Image src={`/Token/${icon}.svg`} width={30} height={30} alt={name}/>
+<LazyLoadImage  src={`/Token/${icon}.svg`} width={30} height={30} alt={name}/>
 <span className='uppercase'>{name}</span>
 </div>
 

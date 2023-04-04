@@ -1,6 +1,6 @@
 import React from 'react'
 import { AiFillGithub } from "react-icons/ai";
-import { SocialItem } from './config';
+import { SocialItem } from '../../../config/Manu/SocialandAdditional';
 type Props = {
   close?:()=>void
 }
@@ -14,7 +14,7 @@ export const Social = ({close}: Props) => {
 
 {SocialItem.map((data,indx)=>{
   return (
-    <a key={indx} href="http://" onClick={()=>handleClose()}>
+    <a key={indx} target="_blank" rel="noreferrer"   href={data.link} onClick={()=>handleClose()}>
     <data.icon key={data.name} /></a>
   )
 })}

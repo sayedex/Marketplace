@@ -46,7 +46,11 @@ const initialState: PoolsState = {
     decimals: 0,
     contractaddress: "",
     url: "",
-    mintToken: []
+    mintToken: [],
+    backing:{
+      name:"",
+      contract:""
+    }
   },
   mintTokenBalance:"0",
   SoldTokenBalance:"0",

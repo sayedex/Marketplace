@@ -17,6 +17,15 @@
      .box_padding{
         @apply px-5
      }   
+     .btn{
+      @apply bg-[#f0f0f0] w-full border p-2 rounded-xl hover:opacity-70 dark:bg-slate-700 dark:border-0
+     }
+     .modelBtnbuy{
+      @apply bg-green-600  text-white hover:opacity-80 w-full min-h-[50px] rounded-xl
+     }
+     .modelBtncancel{
+      @apply bg-red-500 text-white hover:opacity-80 w-full min-h-[50px] rounded-xl
+     }
    
 }
 

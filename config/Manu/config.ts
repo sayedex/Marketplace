@@ -10,13 +10,19 @@ export const ManuItem = [
         name:"CHURUPO",
         icon:'/Token/USDP.png',
         contractaddress:"",
-        link:"/sas"
+        link:""
     },
     {
-        name:"BIBYUYO",
+        name:"PAVO",
         icon:'/Token/USDP.png',
         contractaddress:"",
-        link:"/sas"
+        link:""
+    },
+    {
+        name:"LUCAX",
+        icon:'/Token/USDP.png',
+        contractaddress:"",
+        link:""
     },
    
 

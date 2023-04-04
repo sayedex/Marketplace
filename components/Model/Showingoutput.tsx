@@ -7,8 +7,8 @@ type Props = {
 
 export const Showingoutput = ({name,value}: Props) => {
   return (
-    <div>
-        <div className='flex flex-row justify-between border-b bg-[#414141] m-5 items-center px-4  border dark:border-none  relative h-fit rounded-3xl py-2 '>
+    <div className=''>
+        <div className='flex flex-row justify-between border-b dark:bg-[#414141] m-5 items-center px-4  border dark:border-none  relative h-fit rounded-3xl py-2 '>
 
 
         <div>

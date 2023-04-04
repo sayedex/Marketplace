@@ -60,7 +60,11 @@ export const Allpool: {[key: string]: any}  = {
                 isnative:true,
                 stable:false
             }
-        ]
+        ],
+        backing:{
+            name:"DAI",
+            contract:""
+        }
     },
 }
 

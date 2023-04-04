@@ -48,4 +48,8 @@ export type Pool = {
     contractaddress: string;
     url: string;
     mintToken: mintToken[]
+    backing:{
+        name:string,
+        contract:string
+    }
 }

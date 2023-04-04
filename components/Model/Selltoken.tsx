@@ -91,10 +91,10 @@ export const Selltoken = forwardRef(({ Input, output }: Props, ref: any) => {
   return (
     <div>
       <Popup contentStyle={ContentStyle} open={open} className="rounded-lg bg-red-400" onClose={closeModal}>
-        <div className="modal rounded-lg">
+      <div className="modal rounded-lg bg-white pb-3 dark:bg-[#41414100] ">
 
           {/* header */}
-          <div className=' rounded-t-[19px]  py-4  border-b mb-4 border-gray-700'>
+          <div className=' rounded-t-[19px]  py-4  border-b mb-4 border-gray-200 dark:border-[#4e4a4a] '>
 
             <div className='flex flex-row  justify-between rounded-t-[19px] px-4'>
               <div className='text-lg font-semibold'>
@@ -112,7 +112,7 @@ export const Selltoken = forwardRef(({ Input, output }: Props, ref: any) => {
 
           {/* Balance */}
 
-          <div className='flex flex-row items-center justify-between py-2 px-4 border-b border-gray-700'>
+          <div className='flex flex-row items-center justify-between py-2 px-4 border-b border-gray-200 dark:border-[#4e4a4a] '>
             <div className='font-semibold text-lg'>
               Balance
             </div>
@@ -128,7 +128,7 @@ export const Selltoken = forwardRef(({ Input, output }: Props, ref: any) => {
 
           {/* token price  */}
 
-          <div className='flex flex-row items-center justify-between py-2 px-4 border-b border-gray-700'>
+          <div className='flex flex-row items-center justify-between py-2 px-4 border-b border-gray-200 dark:border-[#4e4a4a] '>
             <div className='font-semibold text-lg'>
               {price.tokensymbol}
             </div>
@@ -161,8 +161,8 @@ export const Selltoken = forwardRef(({ Input, output }: Props, ref: any) => {
 
           <div className='flex flex-row w-full justify-center gap-5 px-4 mb-4'>
 
-            <button onClick={() => closeModal()} className='bg-red-500 w-full min-h-[50px] rounded-xl' >Cancel</button>
-            <button onClick={() => handlesell()} className='bg-green-600 w-full min-h-[50px] hover:opacity-80 rounded-xl' >{isLoading ? "Selling." : "Sell"}</button>
+            <button onClick={() => closeModal()} className='modelBtncancel'  >Cancel</button>
+            <button onClick={() => handlesell()}  className="modelBtnbuy" >{isLoading ? "Selling." : "Swap"}</button>
           </div>
 
 

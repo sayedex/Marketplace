@@ -12,32 +12,44 @@ export const LinkmanuItem = [
     {
         name: "SWAP",
         icon: IoMdSwap,
-        link: ""
+        link: "https://casherfi.com/",
+        isurl:false,
+        route:""
     },
     {
         name: "EARN",
         icon: GiftIcon,
-        link: ""
+        link: "https://casherfi.com/",
+        isurl:true,
+        route:""
     },
     {
         name: "BRIDGE",
         icon: ForwardIcon,
-        link: ""
+        link: "https://casherfi.com/",
+        isurl:false,
+        route:""
     },
     {
         name: "NFT Reward",
         icon: MdOutlineDisplaySettings,
-        link: ""
+        link: "https://casherfi.com/",
+        isurl:false,
+        route:""
     },
     {
         name: "Affiliate Program",
         icon: FaToolbox,
-        link: ""
+        link: "https://casherfi.com/",
+        isurl:false,
+        route:""
     },
     {
         name: "Referral",
         icon: BsFillDiagram3Fill,
-        link: ""
+        link: "https://casherfi.com/",
+        isurl:false,
+        route:""
     },
     //affiliate program
     

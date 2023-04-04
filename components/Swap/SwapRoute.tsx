@@ -155,20 +155,22 @@ export function SwapRoute() {
 
 
 
-      <div className=' bg-[#f0f0f0] border dark:border-none dark:bg-slate-700 flex flex-row justify-center p-3 m-3 rounded-2xl '>
+      <div className='   dark:border-none flex flex-row justify-center m-3 rounded-2xl '>
 
 
         {
-   isbuyorsell? !poolInfo.mintToken[selectedSend]?.isnative &&  MintTokenallowance == 0 || MintTokenallowance==null  ? <button   >Approve </button> : <button onClick={() => handleSwap()} >SWAP </button>:null
+   isbuyorsell? !poolInfo.mintToken[selectedSend]?.isnative &&  MintTokenallowance == 0 || MintTokenallowance==null  ? <button className='btn'   >Approve </button> : <button className="btn" onClick={() => handleSwap()} >SWAP </button>:null
         }
 
 {
-   !isbuyorsell?   (Number(Tokenvalue)*10**18) > soldTokenAllowance ? <button  onClick={()=>handleapprove()} >{`${loadSoldtokenApprove?"Approveing..":"Approve"}`} </button> : <button onClick={() => handleSwap()} >SWAP </button>:null
+   !isbuyorsell?   (Number(Tokenvalue)*10**18) > soldTokenAllowance ? <button  className='btn'  onClick={()=>handleapprove()} >
+    {`${loadSoldtokenApprove?"Approveing..":"Approve"}`} 
+    </button> : <button className='btn' onClick={() => handleSwap()} >SWAP </button>:null
         }
       </div>
 
   {  <Buymodel Input={Tokenvalue} output={MintValue}  ref={MintModel}   />}
-  <Selltoken Input={Tokenvalue} output={MintValue}  ref={sellModel}/>
+  <Selltoken Input={Tokenvalue} output={amountOut(Number(Tokenvalue))}  ref={sellModel}/>
     </div>
   )
 }
