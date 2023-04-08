@@ -18,7 +18,7 @@ export const Gettokeninfoa = async (contractAddress:string) => {
     "pools/Tokeninfo",
     async (params: { address:string}, { dispatch ,getState},) => {
         const RootState = getState() as RootState;
-        const contractAddresses = RootState.pools.price.soldtokenid;
+        const contractAddresses = RootState.pools.Feed.soldtokenid;
      // Wait for all promises to resolve with Promise.all
        const results = await Gettokeninfoa(contractAddresses);
         // Return the results as the payload of the action
@@ -67,7 +67,7 @@ export const Gettokeninfoa = async (contractAddress:string) => {
     "token/getTokenInfo",
     async (params: { user:string}, { dispatch ,getState},) => {
       const RootState = getState() as RootState;
-      const contractAddresses = [RootState.pools.price.id,RootState.pools.price.soldtokenid];
+      const contractAddresses = [RootState.pools.Feed.id,RootState.pools.Feed.soldtokenid];
         // Create an array of promises for each contract address
       const promises = contractAddresses.map((address) => {
       return Getbalance(address,params.user);

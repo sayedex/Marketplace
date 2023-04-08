@@ -1,7 +1,6 @@
 
 import Popup from 'reactjs-popup';
 import React, { FC, ReactNode } from 'react';
-import { Tokenlist } from '../TokenList/Tokenlist';
 import { CalculatorIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 interface ModalProps {

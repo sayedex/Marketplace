@@ -4,7 +4,7 @@ import { SwapRoute } from './SwapRoute';
 import { Tokeninfo ,GetTokenlistPrice,getTokenInfoforuser} from '../../API/Gettokeninfo';
 import {fetchSubgraphData} from "../../API/Getprice"
 import { useAppSelector, useAppdispatch } from "../../hooks/redux";
-import { Tokenlist,Allpool } from '../TokenList/Tokenlist';
+import { Allpool } from '../../config/Token';
 import { useAccount } from 'wagmi';
 import { useRouter } from 'next/router';
 import {setPoolinfo} from "../../store/poolSlice";
@@ -18,7 +18,7 @@ export const Swap = ({ id }: Props) => {
   const dispatch = useAppdispatch();
   const router = useRouter();
   const contract = router.query.id as string;
-   const { rcvToken ,TokenList,price,mintTokenBalance,SoldTokenBalance,poolInfo,BNBbalance} = useAppSelector((state) => state.pools);
+   const { rcvToken ,Feed,mintTokenBalance,SoldTokenBalance,poolInfo,BNBbalance} = useAppSelector((state) => state.pools);
    const {mintToken,} = poolInfo;
   // const {totalSupply,backing}   = price;
   useEffect(() => {
@@ -41,7 +41,7 @@ export const Swap = ({ id }: Props) => {
 
   useEffect(() => {
     dispatch(Tokeninfo({ address: "sasa" }));
-  }, [price,dispatch])
+  }, [Feed,dispatch])
 
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export const Swap = ({ id }: Props) => {
       dispatch(getTokenInfoforuser({ user: address}));
     }
 
-  }, [address,price,dispatch])
+  }, [address,Feed,dispatch])
 
 
 
@@ -60,7 +60,7 @@ export const Swap = ({ id }: Props) => {
       {/* content */}
       <div className='flex flex-col gap-5 md:flex-row gap-x-5'>
         <Box icon={mintToken[0]?.name} name={mintToken[0]?.name} value={BNBbalance?formatprice(Number(BNBbalance)):""} type='Balance' />
-        <Box icon={price.tokensymbol} name={price.tokensymbol} value={formatprice(Number(mintTokenBalance))} type='Balance' />
+        <Box icon={Feed.tokensymbol} name={Feed.tokensymbol} value={formatprice(Number(mintTokenBalance))} type='Balance' />
       </div>
       {/* content */}
       <div className='relative bg-white border border-[#d9d9d9] dark:border-none dark:bg-gray-800 rounded-2xl'>

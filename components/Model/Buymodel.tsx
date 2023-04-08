@@ -19,7 +19,7 @@ export const Buymodel = forwardRef(({ Input, output }: Props, ref: any) => {
   const { address } = useAccount();
   //costom hook for stake fund...
   const dispatch = useAppdispatch();
-  const { rcvToken, TokenList, price, poolInfo, mintTokenBalance, BNBbalance } = useAppSelector((state) => state.pools);
+  const { rcvToken, Feed, poolInfo, mintTokenBalance, BNBbalance } = useAppSelector((state) => state.pools);
   const [open, setOpen] = useState(false);
 
 
@@ -119,7 +119,7 @@ export const Buymodel = forwardRef(({ Input, output }: Props, ref: any) => {
             </div>
 
             <div>
-              {mintTokenBalance}    {price.tokensymbol}
+              {mintTokenBalance}    {Feed.tokensymbol}
             </div>
 
           </div>
@@ -131,11 +131,11 @@ export const Buymodel = forwardRef(({ Input, output }: Props, ref: any) => {
 
           <div className='flex flex-row items-center justify-between py-2 px-4 border-b border-gray-200 dark:border-[#4e4a4a] '>
             <div className='font-semibold text-lg'>
-              {price.tokensymbol}
+              {Feed.tokensymbol}
             </div>
 
             <div>
-              {price.price / 10 ** 18}
+              {Feed.price / 10 ** 18}
             </div>
 
           </div>
@@ -149,7 +149,7 @@ export const Buymodel = forwardRef(({ Input, output }: Props, ref: any) => {
             <div className='text-center relative flex justify-center m-auto bg-white border dark:bg-[#414141] rounded-xl w-fit p-2 items-center'>
               <AiOutlineArrowDown className='text-center text-black dark:text-white ' />
             </div>
-            <Showingoutput name={price.tokensymbol} value={output} />
+            <Showingoutput name={Feed.tokensymbol} value={output} />
           </div>
 
           {/* estimated output */}

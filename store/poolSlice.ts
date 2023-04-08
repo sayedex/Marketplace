@@ -5,14 +5,12 @@ import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import { Tokeninfo, GetTokenlistPrice, getTokenInfoforuser } from "../API/Gettokeninfo"
 import { fetchSubgraphData } from "../API/Getprice"
-import { Tokenlist, } from "../components/TokenList/Tokenlist";
 import { Price } from "../typeing";
 import { Gettokeninfoa } from "../API/Gettokeninfo"
 interface PoolsState {
   active: boolean,
   rcvToken: Token,
-  TokenList: tokenType[],
-  price: Price,
+  Feed: Price,
   mintTokenBalance:string,
   SoldTokenBalance:string,
   poolInfo:Pool,
@@ -29,8 +27,7 @@ const initialState: PoolsState = {
     symbol: "",
     contractaddress: ""
   },
-  TokenList: Tokenlist,
-  price: {
+  Feed: {
     id: "",
     price: 0,
     totalSupply: 0,
@@ -86,7 +83,7 @@ const poolsSlice = createSlice({
 
       }),
       builder.addCase(fetchSubgraphData.fulfilled, (state, action) => {
-        state.price = action.payload;
+        state.Feed = action.payload;
       
       }),
       builder.addCase(getTokenInfoforuser.fulfilled, (state, action) => {

@@ -3,7 +3,6 @@ import TokenFiled from './TokenFiled';
 import Popup from 'reactjs-popup';
 import { useAccount } from 'wagmi';
 import { Modal } from '../Model/Tokensellector';
-import { SellToken, Tokenlist } from '../TokenList/Tokenlist';
 import { useAppSelector, useAppdispatch } from "../../hooks/redux";
 import { useRouter } from 'next/router';
 import { useTransation } from '../../hooks/useTransation';
@@ -23,7 +22,7 @@ export function SwapRoute() {
   const { address } = useAccount()
   const router = useRouter();
   const dispatch = useAppdispatch()
-  const { rcvToken, TokenList, price ,poolInfo} = useAppSelector((state) => state.pools);
+  const { rcvToken, Feed ,poolInfo} = useAppSelector((state) => state.pools);
   const MintModel = useRef<{ openPopup: () => void ,closePopup:()=>void}>(null);
   const sellModel = useRef<{ openPopup: () => void ,closePopup:()=>void}>(null);
   const [selectedSend, setSelectedSend] = useState(0);
@@ -38,7 +37,7 @@ export function SwapRoute() {
   const MintValue = useTotalPrice({
     priceA: poolInfo.mintToken[selectedSend]?.price,
     amountB: Tokenvalue,
-    priceC: price.price,
+    priceC: Feed.price,
     stable: poolInfo.mintToken[selectedSend]?.stable,
   });
 
@@ -47,15 +46,17 @@ export function SwapRoute() {
 
   //it will check user spended token allowance ... it will take contract address with user address
   const {tokenAllowance:MintTokenallowance,} = useApprove(poolInfo.mintToken[selectedSend]?.contractaddress,address,poolInfo.contractaddress,poolInfo.mintToken[selectedSend]?.isnative,Tokenvalue,dispatch);
+ 
+ 
+ 
   const {approveToken,tokenAllowance:soldTokenAllowance,isLoading:loadSoldtokenApprove} = useApprove(poolInfo.contractaddress,address,poolInfo.contractaddress,false,Tokenvalue,dispatch);
-
 
 
   // Token = > stable token convert -> 
   const { calculatePrice, amountOut } = useCalculatePrice({
-    totalSupply: price.totalSupply,
-    backingValue: price.backing,
-    Soldfees:price.sellfee
+    totalSupply: Feed.totalSupply,
+    backingValue: Feed.backing,
+    Soldfees:Feed.sellfee
   })
 
 
@@ -130,20 +131,16 @@ export function SwapRoute() {
      <Swich isbuyorsell={isbuyorsell} handleChanebuysell={handleChanebuysell}/>
         <div className='m-3 flex flex-col gap-y-3 cursor-pointer'>
           <p>Received</p>
-          <ShowingPrice name={price.tokensymbol} value={MintValue} />
+          <ShowingPrice name={Feed.tokensymbol} value={MintValue} />
         </div>
 
       </div>}
 
 
-
-
-
-
       {!isbuyorsell && <div>
         <div className='m-3 flex flex-col gap-y-3 cursor-pointer ' >
           <p>Send</p>
-          <TokenFiled name={price.tokensymbol} handleTokenvalueChange={handleTokenvalueChange} model={false} OpenModel={handleOpen} />
+          <TokenFiled name={Feed.tokensymbol} handleTokenvalueChange={handleTokenvalueChange} model={false} OpenModel={handleOpen} />
         </div>
         <Swich isbuyorsell={isbuyorsell} handleChanebuysell={handleChanebuysell}/>
         <div className='m-3 flex flex-col gap-y-3 cursor-pointer'>
@@ -154,12 +151,11 @@ export function SwapRoute() {
       </div>}
 
 
-
       <div className='   dark:border-none flex flex-row justify-center m-3 rounded-2xl '>
 
-
         {
-   isbuyorsell? !poolInfo.mintToken[selectedSend]?.isnative &&  MintTokenallowance == 0 || MintTokenallowance==null  ? <button className='btn'   >Approve </button> : <button className="btn" onClick={() => handleSwap()} >SWAP </button>:null
+   isbuyorsell? !poolInfo.mintToken[selectedSend]?.isnative &&  MintTokenallowance == 0 || MintTokenallowance==null  ? <button className='btn'   >Approve 
+   </button> : <button className="btn" onClick={() => handleSwap()} >SWAP </button>:null
         }
 
 {

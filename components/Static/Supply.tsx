@@ -7,9 +7,9 @@ type Props = {
 }
 
 export const Supply = ({id}: Props) => {
-     const { rcvToken ,TokenList,price:State,poolInfo} = useAppSelector((state) => state.pools);
+     const { rcvToken ,Feed,poolInfo} = useAppSelector((state) => state.pools);
    
-  const {totalSupply,backing,tokensymbol,price}   = State;
+  const {totalSupply,backing,tokensymbol,price}   = Feed;
   const BNBprice = poolInfo.mintToken[0]?.price ? (price/10**18)/(poolInfo.mintToken[0]?.price):0
   const  { name,symbol}  = rcvToken;
   
@@ -18,13 +18,13 @@ export const Supply = ({id}: Props) => {
 
 {/* 3box */}
 <div className='flex flex-col  md:flex-row justify-center gap-5'>
-<Box icon={symbol} name={symbol} type='Total Value Loked (backing)' value={formatNumber(backing/10**18)} />
+<Box icon={symbol} name={"USD"} type='Total Value Loked' value={`${(backing/10**18).toLocaleString()} USD`} />
 
 <Box 
 icon={tokensymbol}
-name={tokensymbol} type='Price' 
-subtitle={`${BNBprice?BNBprice.toFixed(5).toString():""} BNB`} 
-value={`${(price/10**18).toFixed(3).toString()} ${symbol?symbol:""}`} />
+name={"USD"} type='Price' 
+subtitle={`${formatprice(BNBprice)} BNB`} 
+value={`${(formatprice(price/10**18))} ${symbol?symbol:""}`} />
 </div>
 {/* 3box */}
 
