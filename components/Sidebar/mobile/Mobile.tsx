@@ -50,7 +50,7 @@ export const Mobile = () => {
                      <div className='py-4 '>
                         <Social close={()=>close()}/>
                         </div>
-                     <Mood/>
+                   <div className='mb-20'>  <Mood/></div>
                      </div>
                  
                         </Popover.Panel>
