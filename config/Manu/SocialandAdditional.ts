@@ -43,7 +43,7 @@ export const AdditionalItem = [
     {
         name: "Help",
         icon: BiHelpCircle,
-        link: "https://app.gitbook.com/s/R5zKd9rh0M5yj8OG8tRF/support "
+        link: "https://casherup.gitbook.io/casherup/support "
     },
     {
         name: "Docs",

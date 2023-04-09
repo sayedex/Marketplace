@@ -4,7 +4,6 @@ import tokenabi from "../config/ABI/Token.json"
 import { provider } from '../utils/providerweb3';
 import erc20 from "../config/ABI/Erc20.json";
 import { erc721ABI } from 'wagmi';
-import { useTransation } from './useTransation';
 import TokenABI from "../config/ABI/Token.json"
 import { ethers } from 'ethers';
 import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi';

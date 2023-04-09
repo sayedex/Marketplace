@@ -18,7 +18,7 @@ export const Linkmanu = ({ close }: Props) => {
                         <data.icon className='text-start w-[30px] text-[23px]' width={23} height={23}>
                             </data.icon><span className='col-span-1'>{data.name}</span>
                             
-                    </Link>:<a className='flex flex-row gap-x-3 items-center' rel="noreferrer" target="_blank" href={data.link}>
+                    </Link>:<a  className='flex flex-row  gap-x-3 items-center' rel="noreferrer" target="_blank" href={data.link}>
                         <data.icon className='text-start w-[30px] text-[23px]' width={23} height={23}>
                             </data.icon><span className='col-span-1'>{data.name}</span>
                             

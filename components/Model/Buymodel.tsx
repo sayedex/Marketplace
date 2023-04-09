@@ -9,19 +9,22 @@ import { AiOutlineArrowDown } from "react-icons/ai";
 import { ethers } from 'ethers';
 import { Toast, toast } from 'react-hot-toast';
 import TokenABI from "../../config/ABI/Token.json"
-import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi';
+import useDirectCall from '../../hooks/useTrsanstionhelper';
+import { useContract, useSigner } from 'wagmi';
+import ScaleLoader from "react-spinners/ScaleLoader";
 type Props = {
-  Input: any,
+  Input: string,
   output: any
 }
 
 export const Buymodel = forwardRef(({ Input, output }: Props, ref: any) => {
+  const { data: signer } = useSigner();
   const { address } = useAccount();
   //costom hook for stake fund...
   const dispatch = useAppdispatch();
   const { rcvToken, Feed, poolInfo, mintTokenBalance, BNBbalance } = useAppSelector((state) => state.pools);
   const [open, setOpen] = useState(false);
-
+  const {BuyToken,SellTokenloading:buytokenloading}  = useDirectCall(signer,poolInfo.contractaddress)
 
 
   useImperativeHandle(ref, () => {
@@ -46,39 +49,21 @@ export const Buymodel = forwardRef(({ Input, output }: Props, ref: any) => {
   }
 
 
-  const pooladress = poolInfo.contractaddress?.slice(2);
-  const maxValue = ethers.constants.MaxUint256;
 
-  const { config, isError, } = usePrepareContractWrite({
-    address: `0x${pooladress}`,
-    abi: TokenABI.abi,
-    functionName: "mintWithNative(address,uint256)",
-    args: [address, 0],
-    overrides: {
-      value: ethers.utils.parseEther(Input)
-    },
-    onError(data) {
-
-    }
-  })
-
-  const { writeAsync, data, isSuccess, error } = useContractWrite(config)
-  const { status, isLoading, isFetching, isFetched, } = useWaitForTransaction({
-    hash: data?.hash,
-    onSettled(data, error) {
-      if (data) {
-        toast.success("Mint complated");
-        setOpen(false);
-      }
-    },
-  })
-
+console.log(Input);
 
 
 
   const handleMint = async () => {
-    if (Input < Number(BNBbalance)) {
-      writeAsync?.()
+    console.log(Input);
+    
+    if (Number(Input) < Number(BNBbalance)) {
+     await BuyToken(
+      [address,0],
+      'mintWithNative',
+      Input
+     )
+
     } else {
       toast.error("Low balance")
     }
@@ -145,7 +130,7 @@ export const Buymodel = forwardRef(({ Input, output }: Props, ref: any) => {
           {/* inputToken */}
 
           <div>
-            <Showingoutput name={poolInfo.mintToken[0]?.name} value={Input} />
+            <Showingoutput name={poolInfo.mintToken[0]?.name} value={Number(Input)} />
             <div className='text-center relative flex justify-center m-auto bg-white border dark:bg-[#414141] rounded-xl w-fit p-2 items-center'>
               <AiOutlineArrowDown className='text-center text-black dark:text-white ' />
             </div>
@@ -163,7 +148,17 @@ export const Buymodel = forwardRef(({ Input, output }: Props, ref: any) => {
           <div className='flex flex-row w-full justify-center gap-5 px-4 mb-4'>
 
             <button onClick={() => closeModal()} className='modelBtncancel' >Cancel</button>
-            <button onClick={() => handleMint()} className="modelBtnbuy" >{isLoading ? "Minting" : "Swap"}</button>
+            <button disabled={buytokenloading} onClick={() => handleMint()} className="modelBtnbuy" >{buytokenloading ? "" : "Swap"}
+            
+            <ScaleLoader
+            loading={buytokenloading}
+            color="#ffffff"
+            className="text-white"
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+            
+            </button>
           </div>
 
 

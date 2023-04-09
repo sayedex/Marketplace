@@ -11,10 +11,14 @@ type Props = {
 
 const TokenFiled = ({ name, OpenModel, handleTokenvalueChange,model}: Props) => {
   const HandleChange = (e: any) => {
-    if(e.target.value){
-      handleTokenvalueChange(e.target.value)
+    const inputValue = e.target.value;
+    if (inputValue && /^\d+(\.\d{1,7})?$/.test(inputValue)) {
+      // Check if the input value is a valid positive number
+      handleTokenvalueChange(inputValue);
+    } else {
+      // Handle invalid input (e.g., show an error message, reset the input value, etc.)
+      console.log('Invalid input value:', inputValue);
     }
-
   }
 
 const CallTokenList = ()=>{

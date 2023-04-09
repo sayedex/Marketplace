@@ -3,27 +3,30 @@ import Popup from 'reactjs-popup';
 import { useAppdispatch, useAppSelector } from "../../hooks/redux"
 import { CalculatorIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useAccount } from 'wagmi';
-import styled from 'styled-components';
 import { Showingoutput } from './Showingoutput';
 import { AiOutlineArrowDown } from "react-icons/ai";
 import { ethers } from 'ethers';
-import { useTransation } from '../../hooks/useTransation';
 import { Toast, toast } from 'react-hot-toast';
-import TokenABI from "../../config/ABI/Token.json"
-import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi';
+import TokenABI from "../../config/ABI/Token.json";
+import { useContract, useSigner } from 'wagmi';
+import useDirectCall from '../../hooks/useTrsanstionhelper'
+import ScaleLoader from "react-spinners/ScaleLoader";
 type Props = {
   Input: any,
   output: any
 }
 
 export const Selltoken = forwardRef(({ Input, output }: Props, ref: any) => {
+  const { data: signer } = useSigner();
+
+
   const { address } = useAccount();
   //costom hook for stake fund...
   const dispatch = useAppdispatch();
   const { rcvToken, Feed, poolInfo, mintTokenBalance, BNBbalance } = useAppSelector((state) => state.pools);
   const [open, setOpen] = useState(false);
 
-
+  const {SellToken,SellTokenloading}  = useDirectCall(signer,poolInfo.contractaddress)
 
   useImperativeHandle(ref, () => {
     return {
@@ -49,38 +52,13 @@ export const Selltoken = forwardRef(({ Input, output }: Props, ref: any) => {
 
 
 
-
-  const pooladress = poolInfo.contractaddress?.slice(2);
-  const maxValue = ethers.constants.MaxUint256;
-
-
-
-  const { config, isError, isLoading: loadInstance } = usePrepareContractWrite({
-    address: `0x${pooladress}`,
-    abi: TokenABI.abi,
-    functionName: "sell(uint256)",
-    args: [Number(Input) * 10 ** 18],
-    onError(data) {
-
-    }
-  })
-
-  const { writeAsync, data, isSuccess, error } = useContractWrite(config)
-  const { status, isLoading, isFetching, isFetched, } = useWaitForTransaction({
-    hash: data?.hash,
-    onSettled(data, error) {
-      toast.success("Sell complated");
-      setOpen(false);
-
-    },
-  })
-
-
-
-
   const handlesell = async () => {
     if (Input < Number(mintTokenBalance)) {
-      writeAsync?.()
+     // writeAsync?.();
+    await SellToken(
+    [ethers.utils.parseUnits(Input)],
+    "sell"
+    );
     } else {
       toast.error("Low balance")
     }
@@ -146,7 +124,7 @@ export const Selltoken = forwardRef(({ Input, output }: Props, ref: any) => {
           <div>
             <Showingoutput name={Feed.tokensymbol} value={Input} />
             <div className='text-center relative flex justify-center m-auto bg-[#414141] rounded-xl w-fit p-2 items-center'>
-              <AiOutlineArrowDown className='text-center ' />
+              <AiOutlineArrowDown className='text-center text-white' />
             </div>
             <Showingoutput name={rcvToken.symbol} value={output} />
           </div>
@@ -162,7 +140,17 @@ export const Selltoken = forwardRef(({ Input, output }: Props, ref: any) => {
           <div className='flex flex-row w-full justify-center gap-5 px-4 mb-4'>
 
             <button onClick={() => closeModal()} className='modelBtncancel'  >Cancel</button>
-            <button onClick={() => handlesell()}  className="modelBtnbuy" >{isLoading ? "Selling." : "Swap"}</button>
+            <button disabled={SellTokenloading} onClick={() => handlesell()}  className="modelBtnbuy" >{SellTokenloading ? "" : "Swap"}
+
+            <ScaleLoader
+            loading={SellTokenloading}
+            color="#ffffff"
+            className="text-white"
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+            
+            </button>
           </div>
 
 

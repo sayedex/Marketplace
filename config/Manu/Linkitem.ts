@@ -38,14 +38,14 @@ export const LinkmanuItem = [
         route:""
     },
     {
-        name: "Affiliate Program",
+        name: "LAUNCHPAD",
         icon: FaToolbox,
         link: "https://casherfi.com/",
         isurl:false,
         route:""
     },
     {
-        name: "Referral",
+        name: "AFFILIATE PROGRAM",
         icon: BsFillDiagram3Fill,
         link: "https://casherfi.com/",
         isurl:false,
