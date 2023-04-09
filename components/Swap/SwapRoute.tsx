@@ -27,7 +27,7 @@ export function SwapRoute() {
   const MintModel = useRef<{ openPopup: () => void, closePopup: () => void }>(null);
   const sellModel = useRef<{ openPopup: () => void, closePopup: () => void }>(null);
   const [selectedSend, setSelectedSend] = useState(0);
-  const [Tokenvalue, setTokenvalue] = useState('');
+  const [Tokenvalue, setTokenvalue] = useState('0');
   //true means buy..
   const [isbuyorsell, setisbuyorsell] = useState<boolean>(true);
   //RcV token
